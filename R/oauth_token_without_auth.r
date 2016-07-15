@@ -1,65 +1,51 @@
-init_oauth2.0_clientcred <-
-  function (endpoint,
-            app,
-            scope = NULL,
-            user_params = NULL,
-            type = NULL,
-            use_oob = getOption("httr_oob_default"),
-            is_interactive = interactive(),
-            use_basic_auth = TRUE)
-  {
-    if (!use_oob && !httr:::is_installed("httpuv")) {
-      message("httpuv not installed, defaulting to out-of-band authentication")
-      use_oob <- TRUE
+TokenDataRTE <- R6::R6Class("TokenDataRTE", inherit = httr:::Token2.0, list(
+  can_refresh = function() {
+    TRUE
+  },
+  refresh = function() {
+    cred <- init_oauth2.0(
+      self$endpoint,
+      self$app,
+      self$params$user_params,
+      self$params$use_basic_auth,
+      self$params$without_auth_req
+    )
+    if (is.null(cred)) {
+      remove_cached_token(self)
+    } else {
+      self$credentials <- cred
+      self$cache()
     }
-    if (isTRUE(use_oob)) {
-      stopifnot(interactive())
-      redirect_uri <- "urn:ietf:wg:oauth:2.0:oob"
-      state <- NULL
-    }
-    else {
-      redirect_uri <- oauth_callback()
-      state <- httr:::nonce()
-    }
-    scope_arg <- paste(scope, collapse = " ")
-    # authorize_url <-
-    #   modify_url(endpoint$authorize, query = compact(
-    #     list(
-    #       client_id = app$key,
-    #       scope = scope_arg,
-    #       redirect_uri = redirect_uri,
-    #       response_type = "code",
-    #       state = state
-    #     )
-    #   ))
-    # if (isTRUE(use_oob)) {
-    #   code <- oauth_exchanger(authorize_url)$code
-    # }
-    # else {
-    #   code <- oauth_listener(authorize_url, is_interactive)$code
-    # }
-    # req_params <-
-    #   list(
-    #     client_id = app$key,
-    #     redirect_uri = redirect_uri,
-    #     grant_type = "authorization_code",
-    #     code = code
-    #   )
-    # if (!is.null(user_params)) {
-    #   req_params <- utils::modifyList(user_params, req_params)
-    # }
-    if (isTRUE(use_basic_auth)) {
-      req <- POST(
-        endpoint$access,
-        encode = "form",
-        # body = req_params,
-        authenticate(app$key, app$secret, type = "basic")
-      )
-    }
-    else {
-      req_params$client_secret <- app$secret
-      req <- POST(endpoint$access, encode = "form", body = req_params)
-    }
-    stop_for_status(req, task = "get an access token")
-    content(req, type = type)
+    self
   }
+)
+)
+
+oauth2.0_token_RTE <-function(endpoint,
+                              app,
+                              scope = NULL,
+                              user_params = NULL,
+                              type = NULL,
+                              use_oob = getOption("httr_oob_default"),
+                              as_header = TRUE,
+                              use_basic_auth = TRUE,
+                              without_auth_req = TRUE,
+                              cache = getOption("httr_oauth_cache")) {
+  params <-
+    list(
+      scope = scope,
+      user_params = user_params,
+      type = type,
+      use_oob = use_oob,
+      as_header = as_header,
+      use_basic_auth = use_basic_auth,
+      without_auth_req = without_auth_req
+    )
+
+  TokenDataRTE$new(
+    app = app,
+    endpoint = endpoint,
+    params = params,
+    cache_path = cache
+  )
+}
