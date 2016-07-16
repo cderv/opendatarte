@@ -4,11 +4,11 @@ TokenDataRTE <- R6::R6Class("TokenDataRTE", inherit = httr:::Token2.0, list(
   },
   refresh = function() {
     cred <- init_oauth2.0(
-      self$endpoint,
-      self$app,
-      self$params$user_params,
-      self$params$use_basic_auth,
-      self$params$without_auth_req
+      endpoint = self$endpoint,
+      app = self$app,
+      user_params = self$params$user_params,
+      use_basic_auth = self$params$use_basic_auth,
+      without_auth_req = self$params$without_auth_req
     )
     if (is.null(cred)) {
       remove_cached_token(self)
