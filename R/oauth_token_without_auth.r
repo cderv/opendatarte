@@ -134,7 +134,7 @@ datarte_auth <- function(token = NULL,
     stopifnot(is_token_datarte(datarte_token, verbose = TRUE))
     .state$token <- datarte_token
   } else if (inherits(token, "TokenDataRTE")) {
-    stopifnot(is__token_datarte(token, verbose = TRUE))
+    stopifnot(is_token_datarte(token, verbose = TRUE))
     .state$token <- token
   } else if (inherits(token, "character")) {
     datarte_token <- purrr::possibly(readRDS, otherwise = NULL, quiet = T)(token)
