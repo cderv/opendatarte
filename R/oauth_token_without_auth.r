@@ -15,6 +15,7 @@ TokenDataRTE <- R6::R6Class("TokenDataRTE", inherit = httr:::Token2.0, list(
     } else {
       self$credentials <- cred
       self$cache()
+      .state$token$credentials <- cred
     }
     self
   }
@@ -122,7 +123,7 @@ datarte_auth <- function(token = NULL,
                          cache){
   if(is.null(token)){
     base_url <- .state$datarte_url
-    auth_url <- modify_url(base_url, path = "/token/oauth/")
+    auth_url <- httr::modify_url(base_url, path = "/token/oauth/")
     datarte_endpoints <- httr::oauth_endpoint(NULL,authorize = "", access = "",
                                               base_url = auth_url)
 
