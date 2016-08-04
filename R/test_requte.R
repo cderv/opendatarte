@@ -70,3 +70,4 @@ print.rte_api <- function(x, ...) {
   invisible(x)
 }
 
+RegistreAPI()
