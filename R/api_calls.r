@@ -17,8 +17,6 @@
 #'
 #' @export
 #' @keywords internal
-#'
-#' @examples
 call_api <- function(ressource_path, refresh = TRUE){
   assertthat::assert_that(assertthat::is.string(ressource_path))
   req_path <- httr::modify_url(.state$datarte_url,

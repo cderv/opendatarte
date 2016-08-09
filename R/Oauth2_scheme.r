@@ -91,12 +91,12 @@ oauth2.0_token_RTE <- function(endpoint,
 #'
 #' @export
 #' @keywords internal
-#' @example
-#' \dontrun{
-#' # use in httr fonction like GET for authentification as config for httr
-#' datarte_auth(client_id, client_secret)
-#' httr::GET("https://httpbin.org/get", datarte_token())
-#' }
+#' @examples
+#'   \dontrun{
+#'   # use in httr fonction like GET for authentification as config for httr
+#'   datarte_auth(client_id, client_secret)
+#'   httr::GET("https://httpbin.org/get", datarte_token())
+#'   }
 datarte_token <- function(verbose = FALSE) {
   if (!is_token_available(verbose = verbose)) {
     stop("No token available in current session.\n",
