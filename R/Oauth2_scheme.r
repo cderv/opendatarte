@@ -165,8 +165,8 @@ get_current_token <- function(only_access_token = F){
 
 
 # ID for christophe Dervieux acces on data RTE API application
-client_id <- "8d48ab4d-bff2-47dd-b2a9-ee0add477830"
-client_secret <- "1d208734-4ec0-4bfc-9f1f-386f2ef4a822"
+.state$client_id <- "8d48ab4d-bff2-47dd-b2a9-ee0add477830"
+.state$client_secret <- "1d208734-4ec0-4bfc-9f1f-386f2ef4a822"
 
 # URL for data RTE API
 .state$datarte_url <- "https://digital.iservices.rte-france.com/"

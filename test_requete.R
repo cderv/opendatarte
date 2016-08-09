@@ -27,7 +27,7 @@ library("httr")
 # client_id <- "8d48ab4d-bff2-47dd-b2a9-ee0add477830"
 # client_secret <- "1d208734-4ec0-4bfc-9f1f-386f2ef4a822"
 # source('R/oauth_token_without_auth.r')
-datarte_auth(client_id = client_id, client_secret = client_secret, cache = F)
+datarte_auth(client_id = .state$client_id, client_secret = .state$client_secret, cache = F)
 
 
 # Test --------------------------------------------------------------------
