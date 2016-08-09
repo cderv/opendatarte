@@ -120,19 +120,21 @@ client_secret <- "1d208734-4ec0-4bfc-9f1f-386f2ef4a822"
 datarte_auth <- function(token = NULL,
                          client_id,
                          client_secret,
-                         cache){
-  if(is.null(token)){
-    base_url <- .state$datarte_url
-    auth_url <- httr::modify_url(base_url, path = "/token/oauth/")
-    datarte_endpoints <- httr::oauth_endpoint(NULL,authorize = "", access = "",
-                                              base_url = auth_url)
+                         cache = F){
+  if (is.null(token)) {
+    if (!is_token_available(verbose = F)) {
+      base_url <- .state$datarte_url
+      auth_url <- httr::modify_url(base_url, path = "/token/oauth/")
+      datarte_endpoints <- httr::oauth_endpoint(NULL,authorize = "", access = "",
+                                                base_url = auth_url)
 
-    datarte_app <- httr::oauth_app("datarte", client_id, client_secret)
+      datarte_app <- httr::oauth_app("datarte", client_id, client_secret)
 
-    datarte_token <- oauth2.0_token_RTE(datarte_endpoints, datarte_app,
-                                        use_basic_auth = T, without_auth_req = T, cache = cache)
-    stopifnot(is_token_datarte(datarte_token, verbose = TRUE))
-    .state$token <- datarte_token
+      datarte_token <- oauth2.0_token_RTE(datarte_endpoints, datarte_app,
+                                          use_basic_auth = T, without_auth_req = T, cache = cache)
+      stopifnot(is_token_datarte(datarte_token, verbose = TRUE))
+      .state$token <- datarte_token
+    }
   } else if (inherits(token, "TokenDataRTE")) {
     stopifnot(is_token_datarte(token, verbose = TRUE))
     .state$token <- token
