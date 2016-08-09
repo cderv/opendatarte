@@ -105,7 +105,10 @@ is_token_available <- function(verbose = TRUE) {
 
 
 get_current_token <- function(only_access_token = F){
-  if (!is_token_available(verbose = TRUE)) return(NULL)
+  if (!is_token_available(verbose = TRUE)) {
+    message("No token available. Get a valid token for current session with datarte_auth function.")
+    return(NULL)
+  }
   if (only_access_token) {
     return(.state$token$credentials$access_token)
   }
