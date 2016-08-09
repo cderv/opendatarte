@@ -14,3 +14,8 @@ License: file LICENSE
 Remotes: github::cderv/httr@client_credential_grant
 LazyData: true
 RoxygenNote: 5.0.1
+Imports:
+    assertthat,
+    httr,
+    purrr,
+    R6
