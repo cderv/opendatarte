@@ -21,3 +21,4 @@ Imports:
     R6
 Suggests: 
     testthat
+Roxygen: list(markdown = TRUE)

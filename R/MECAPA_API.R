@@ -2,9 +2,9 @@
 #'
 #' @param ressource name of the ressource to call in the API. Choices are
 #'   describe in API documentation on the website
-#'   \url{http://www.data.rte-france.com}
-#' @param sandbox logical. \code{TRUE} to call the sandbox URL for testing
-#' @param refresh lofical. \code{TRUE} to allow refresh.
+#'   <http://www.data.rte-france.com>
+#' @param sandbox logical. `TRUE` to call the sandbox URL for testing
+#' @param refresh lofical. `TRUE` to allow refresh.
 #'
 #' @family API-calls
 #'

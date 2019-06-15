@@ -6,9 +6,9 @@
 #'
 #' @param ressource_path string. adresse of the ressource as describe in data rte API documentation available on
 #' data.rte-france.com (part of the addresse after /open_api/)
-#' @param refresh logical. force to \code{FALSE} to prevent refresh
+#' @param refresh logical. force to `FALSE` to prevent refresh
 #'
-#' @return an \code{rte_api} object as a list with
+#' @return an `rte_api` object as a list with
 #'  \enumerate{
 #'      \item content: the parsed json resulting from the API call
 #'      \item path: the ressource called by the API request

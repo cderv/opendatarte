@@ -1,12 +1,12 @@
-#' Produce token for data.rte-france.com
+#' Produces token for data.rte-france.com
 #'
 #' If token is not already available in the current session, this function will stop execution.
-#' A token for the current session must be requested before any other task.
+#' An active token for the current session must be requested before any other task.
 #'
-#' Use \code{\link{get_current_token}} to check for valid token.
+#' Use [get_current_token()] to check for valid token.
 #'
-#' @return a \code{request} object (an S3 class provided by \code{httr}). It is the token prepared for
-#' use with httr configuration system. see \code{\link[httr]{config}}.
+#' @return a `request` object (an S3 class provided by `httr`). It is the token prepared for
+#' use with httr configuration system. see [httr::config()].
 #'
 #' @export
 #' @keywords internal
@@ -32,7 +32,7 @@ datarte_token <- function(verbose = FALSE) {
 #' Check for token existence
 #'
 #' This function checks if a token exist in the internal
-#' \code{.state} environment of the package
+#' `.state` environment of the package
 #'
 #' @return logical
 #' @keywords internal
@@ -60,10 +60,10 @@ is_token_available <- function(verbose = TRUE) {
 
 #' Get current active token
 #'
-#' @param only_access_token logical. Default to \code{FALSE}
+#' @param only_access_token logical. Default to `FALSE`
 #'
-#' @return If \code{TRUE}, just the access_token is returned not the whole token.
-#' If no token is available, for the current session, it return \code{NULL}
+#' @return If `TRUE`, just the access_token is returned not the whole token.
+#' If no token is available, for the current session, it return `NULL`
 #'
 #' @export
 #'
@@ -86,21 +86,21 @@ get_current_token <- function(only_access_token = F){
 #' It is the main fonction to use for accessing RTE Data API. It will request an access token for
 #' the current session if none currently exists and be valid.
 #'
-#' This function is inspired by \code{googlesheet} package and its Oauth2 system.
+#' This function is inspired by `googlesheet` package and its Oauth2 system.
 #'
 #' @param token optional argument. it exists to supply manually a token.
 #' \itemize{
 #'    \item if `NULL` (the default), the current token for the active session will be used.
-#'    \item if a \code{character}, it assumes to be the path to a \emph{rds}
+#'    \item if a `character`, it assumes to be the path to a *rds*
 #'    file containing a valid Token2.0 object from httr
-#'    \item a \code{Token2.0} object directly
+#'    \item a `Token2.0` object directly
 #' }
 #' @param client_id character. the client id for the app
 #' @param client_secret character. the client secret for the app
-#' @param cache logical. \code{TRUE} to cache the access token in a file. See
+#' @param cache logical. `TRUE` to cache the access token in a file. See
 #'   ?httr::oauth2.0_token
 #'
-#' @return invisibly the \code{Token} which is saved for the current session,
+#' @return invisibly the `Token` which is saved for the current session,
 #'   and will be used when needed.
 #' @export
 #'
@@ -119,7 +119,7 @@ datarte_auth <- function(token = NULL,
       if (is.null(client_id)) client_id <- .state$client_id
       if (!nzchar(client_id)) stop("No client_id configured. Provide one or set `OPENDATARTE_CLIENT`")
       if (is.null(client_secret)) client_id <- .state$client_id
-      if (!nzchar(client_id)) stop("No client_id configured. Provide one or set `OPENDATARTE_SECRET`")
+      if (!nzchar(client_secret)) stop("No client_id configured. Provide one or set `OPENDATARTE_SECRET`")
       datarte_endpoints <- httr::oauth_endpoint(authorize = NULL,
                                                 access = "token/oauth/",
                                                 base_url = .state$datarte_url)
@@ -153,10 +153,10 @@ datarte_auth <- function(token = NULL,
 #' Check that object is a token
 #'
 #' @param x a R object to test
-#' @param verbose \code{TRUE} for printing message
+#' @param verbose `TRUE` for printing message
 #'
-#' @return logical. \code{TRUE} is if the object is a valid \code{\link{TokenDataRTE}}
-#' object for use with this package. \code{FALSE} otherwise.
+#' @return logical. `TRUE` is if the object is a valid [TokenDataRTE()]
+#' object for use with this package. `FALSE` otherwise.
 #'
 #' @export
 #' @keywords internal
@@ -167,4 +167,3 @@ is_token <- function(x, verbose = FALSE) {
   }
   TRUE
 }
-
