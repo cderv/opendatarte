@@ -123,7 +123,7 @@ datarte_auth <- function(token = NULL,
     if (!is_token_available(verbose = F)) {
       if (is.null(client_id)) client_id <- .state$client_id
       if (!nzchar(client_id)) stop("No client_id configured. Provide one or set `RTE_API_CLIENT`")
-      if (is.null(client_secret)) client_id <- .state$client_id
+      if (is.null(client_secret)) client_secret <- .state$client_secret
       if (!nzchar(client_secret)) stop("No client_id configured. Provide one or set `RTE_API_SECRET`")
       datarte_endpoints <- httr::oauth_endpoint(authorize = NULL,
                                                 access = "token/oauth/",
