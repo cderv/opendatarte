@@ -19,3 +19,5 @@ Imports:
     httr,
     purrr,
     R6
+Suggests: 
+    testthat
