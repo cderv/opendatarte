@@ -4,25 +4,28 @@
 \alias{datarte_auth}
 \title{Obtain credentials for RTE Data API}
 \usage{
-datarte_auth(token = NULL, client_id, client_secret, cache = F)
+datarte_auth(token = NULL, client_id = NULL, client_secret = NULL,
+  cache = FALSE)
 }
 \arguments{
 \item{token}{optional argument. it exists to supply manually a token.
 \itemize{
+   \item if `NULL` (the default), the current token for the active session will be used.
    \item if a \code{character}, it assumes to be the path to a \emph{rds}
-   file containing a valid TokenDataRTE object
-   \item an \code{TokenDataRTE} object
-   \item if `NULL` (the default), the current token for the active session will be used. If
+   file containing a valid Token2.0 object from httr
+   \item a \code{Token2.0} object directly
 }}
 
 \item{client_id}{character. the client id for the app}
 
 \item{client_secret}{character. the client secret for the app}
 
-\item{cache}{logical. \code{TRUE} to cache the access token in a file/}
+\item{cache}{logical. \code{TRUE} to cache the access token in a file. See
+?httr::oauth2.0_token}
 }
 \value{
-invlisibly the \code{TokenDataRTE} which is save for the current session, and use when needed.
+invisibly the \code{Token} which is saved for the current session,
+  and will be used when needed.
 }
 \description{
 It is the main fonction to use for accessing RTE Data API. It will request an access token for

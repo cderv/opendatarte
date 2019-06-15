@@ -90,16 +90,18 @@ get_current_token <- function(only_access_token = F){
 #'
 #' @param token optional argument. it exists to supply manually a token.
 #' \itemize{
+#'    \item if `NULL` (the default), the current token for the active session will be used.
 #'    \item if a \code{character}, it assumes to be the path to a \emph{rds}
-#'    file containing a valid TokenDataRTE object
-#'    \item an \code{TokenDataRTE} object
-#'    \item if `NULL` (the default), the current token for the active session will be used. If
+#'    file containing a valid Token2.0 object from httr
+#'    \item a \code{Token2.0} object directly
 #' }
 #' @param client_id character. the client id for the app
 #' @param client_secret character. the client secret for the app
-#' @param cache logical. \code{TRUE} to cache the access token in a file/
+#' @param cache logical. \code{TRUE} to cache the access token in a file. See
+#'   ?httr::oauth2.0_token
 #'
-#' @return invlisibly the \code{TokenDataRTE} which is save for the current session, and use when needed.
+#' @return invisibly the \code{Token} which is saved for the current session,
+#'   and will be used when needed.
 #' @export
 #'
 #' @examples
@@ -109,11 +111,15 @@ get_current_token <- function(only_access_token = F){
 #' datarte_auth(client_id = client_id, client_secret = client_secret, cache = F)
 #' }
 datarte_auth <- function(token = NULL,
-                         client_id,
-                         client_secret,
-                         cache = F){
+                         client_id = NULL,
+                         client_secret = NULL,
+                         cache = FALSE){
   if (is.null(token)) {
     if (!is_token_available(verbose = F)) {
+      if (is.null(client_id)) client_id <- .state$client_id
+      if (!nzchar(client_id)) stop("No client_id configured. Provide one or set `OPENDATARTE_CLIENT`")
+      if (is.null(client_secret)) client_id <- .state$client_id
+      if (!nzchar(client_id)) stop("No client_id configured. Provide one or set `OPENDATARTE_SECRET`")
       datarte_endpoints <- httr::oauth_endpoint(authorize = NULL,
                                                 access = "token/oauth/",
                                                 base_url = .state$datarte_url)
@@ -127,14 +133,13 @@ datarte_auth <- function(token = NULL,
                                             cache = cache)
       .state$token <- datarte_token
     }
-  } else if (inherits(token, "TokenDataRTE")) {
-    stopifnot(is_token_datarte(token, verbose = TRUE))
+  } else if (inherits(token, "Token2.0")) {
     .state$token <- token
   } else if (inherits(token, "character")) {
     datarte_token <- purrr::possibly(readRDS, otherwise = NULL, quiet = T)(token)
     if (is.null(datarte_token)) {
       stop(sprintf("Cannot read token from alleged .rds file:\n%s", token), call. = F)
-    } else if (!is_token_datarte(datarte_token, verbose = TRUE)) {
+    } else if (!is_token(datarte_token, verbose = TRUE)) {
       stop(sprintf("File does not contain a proper token:\n%s", token), call. = F)
     }
     .state$token <- datarte_token
@@ -145,7 +150,7 @@ datarte_auth <- function(token = NULL,
   invisible(.state$token)
 }
 
-#' Check that object is a datarte token
+#' Check that object is a token
 #'
 #' @param x a R object to test
 #' @param verbose \code{TRUE} for printing message
@@ -155,16 +160,10 @@ datarte_auth <- function(token = NULL,
 #'
 #' @export
 #' @keywords internal
-is_token_datarte <- function(x, verbose = FALSE) {
-  if (!inherits(x, "TokenDataRTE")) {
-    if (!inherits(x, "Token2.0")) {
-      if (verbose) message("Not a TokenDataRTE object nor a Token2.0 object.")
-      return(FALSE)
-    } else {
-      if (verbose) message("Not a TokenDataRTE object but a Token2.0 object.\n",
-                           "Insure to create the token witth this packages")
-      return(FALSE)
-    }
+is_token <- function(x, verbose = FALSE) {
+  if (!inherits(x, "Token2.0")) {
+    if (verbose) message("Not a Token2.0 object from httr")
+    return(FALSE)
   }
   TRUE
 }
