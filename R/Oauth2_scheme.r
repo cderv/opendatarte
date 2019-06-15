@@ -1,84 +1,3 @@
-#' OAuth token objects for RTE Data API
-#'
-#' This objects is a specific Oauth Token Object derived from the ones in \code{httr}
-#' package for Oauth authentification. It inherits from \code{\link[httr]{Token2.0}} objects by modifying
-#' its refresh methods. Use \code{\link{oauth2.0_token_RTE}} to create the object.
-#'
-#' @section Warnings:
-#' Official \code{httr} packages is not compatible with Oauth2 client credential grant. It is why
-#' the version of httr needed is on Github cderv/httr@client_credential_grant, until PR is merged.
-#'
-#' @docType class
-#' @keywords internal
-#' @format An R6 class object.
-#' @importFrom R6 R6Class
-#' @export
-TokenDataRTE <- R6::R6Class("TokenDataRTE", inherit = httr:::Token2.0, list(
-  can_refresh = function() {
-    TRUE
-  },
-  refresh = function() {
-    cred <- httr::init_oauth2.0(
-      endpoint = self$endpoint,
-      app = self$app,
-      user_params = self$params$user_params,
-      use_basic_auth = self$params$use_basic_auth,
-      without_auth_req = self$params$without_auth_req
-    )
-    if (is.null(cred)) {
-      httr:::remove_cached_token(self)
-    } else {
-      self$credentials <- cred
-      self$cache()
-      .state$token$credentials <- cred
-    }
-    self
-  }
-)
-)
-
-#' Create a *TokenDataRTE* object
-#'
-#' This is the main object for Oauth2 authentification to connect to RTE Data
-#' API. It contains everything needed for the connection.This function should
-#' not be called directly. \code{\link{datarte_auth}} should be use instead and
-#' calls this function.
-#'
-#' This fonction is derived from \code{\link[httr]{oauth2.0_token}}
-#'
-#' @inheritParams httr::oauth2.0_token
-#'
-#' @return A \code{TokenDataRTE} object for use in \code{\link{datarte_auth}}
-#' @export
-oauth2.0_token_RTE <- function(endpoint,
-                              app,
-                              scope = NULL,
-                              user_params = NULL,
-                              type = NULL,
-                              use_oob = getOption("httr_oob_default"),
-                              as_header = TRUE,
-                              use_basic_auth = TRUE,
-                              without_auth_req = TRUE,
-                              cache = getOption("httr_oauth_cache")) {
-  params <-
-    list(
-      scope = scope,
-      user_params = user_params,
-      type = type,
-      use_oob = use_oob,
-      as_header = as_header,
-      use_basic_auth = use_basic_auth,
-      without_auth_req = without_auth_req
-    )
-
-  TokenDataRTE$new(
-    app = app,
-    endpoint = endpoint,
-    params = params,
-    cache_path = cache
-  )
-}
-
 #' Produce token for data.rte-france.com
 #'
 #' If token is not already available in the current session, this function will stop execution.
@@ -100,8 +19,8 @@ oauth2.0_token_RTE <- function(endpoint,
 datarte_token <- function(verbose = FALSE) {
   if (!is_token_available(verbose = verbose)) {
     stop("No token available in current session.\n",
-         "Use datarte_auth to explicitly authentificate with client id and client secret \n",
-         "and get a valid token.", call. = F)
+         "Use function datarte_auth() to explicitly authentificate with client id and client secret \n",
+         "and get a valid token. See ?datarte_auth.", call. = F)
     # datarte_auth(verbose = verbose)
   }
   httr::config(token = .state$token)
@@ -141,17 +60,16 @@ is_token_available <- function(verbose = TRUE) {
 
 #' Get current active token
 #'
-#'
-#'
 #' @param only_access_token logical. Default to \code{FALSE}
 #'
 #' @return If \code{TRUE}, just the access_token is returned not the whole token.
 #' If no token is available, for the current session, it return \code{NULL}
+#'
 #' @export
 #'
 #' @examples
 #' get_current_token() # Return NULL or token credentials
-#' get_current_token(T) # Return NULL or access token only.
+#' get_current_token(TRUE) # Return NULL or access token only.
 get_current_token <- function(only_access_token = F){
   if (!is_token_available(verbose = TRUE)) {
     message("No token available. Get a valid token for current session with datarte_auth function.")
@@ -162,15 +80,6 @@ get_current_token <- function(only_access_token = F){
   }
   .state$token$credentials
 }
-
-
-# ID for christophe Dervieux acces on data RTE API application
-.state$client_id <- "8d48ab4d-bff2-47dd-b2a9-ee0add477830"
-.state$client_secret <- "1d208734-4ec0-4bfc-9f1f-386f2ef4a822"
-
-# URL for data RTE API
-.state$datarte_url <- "https://digital.iservices.rte-france.com/"
-
 
 #' Obtain credentials for RTE Data API
 #'
@@ -205,16 +114,17 @@ datarte_auth <- function(token = NULL,
                          cache = F){
   if (is.null(token)) {
     if (!is_token_available(verbose = F)) {
-      base_url <- .state$datarte_url
-      auth_url <- httr::modify_url(base_url, path = "/token/oauth/")
-      datarte_endpoints <- httr::oauth_endpoint(NULL,authorize = "", access = "",
-                                                base_url = auth_url)
+      datarte_endpoints <- httr::oauth_endpoint(authorize = NULL,
+                                                access = "token/oauth/",
+                                                base_url = .state$datarte_url)
 
       datarte_app <- httr::oauth_app("datarte", client_id, client_secret)
 
-      datarte_token <- oauth2.0_token_RTE(datarte_endpoints, datarte_app,
-                                          use_basic_auth = T, without_auth_req = T, cache = cache)
-      stopifnot(is_token_datarte(datarte_token, verbose = TRUE))
+      datarte_token <- httr::oauth2.0_token(endpoint = datarte_endpoints,
+                                            app = datarte_app,
+                                            use_basic_auth = TRUE,
+                                            client_credentials = TRUE,
+                                            cache = cache)
       .state$token <- datarte_token
     }
   } else if (inherits(token, "TokenDataRTE")) {
