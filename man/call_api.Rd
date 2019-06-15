@@ -26,4 +26,3 @@ is ressource generic and could be adapted to call the available ressource
 on the data RTE portal.
 }
 \keyword{internal}
-

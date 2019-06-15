@@ -25,4 +25,3 @@ Use \code{\link{get_current_token}} to check for valid token.
   }
 }
 \keyword{internal}
-

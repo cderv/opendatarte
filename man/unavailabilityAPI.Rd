@@ -19,6 +19,6 @@ describe in API documentation on the website
 Retrieve data from the production API
 }
 \seealso{
-Other API.calls: \code{\link{RegistreAPI}}
+Other API-calls: \code{\link{RegistreAPI}}
 }
-
+\concept{API-calls}

@@ -19,6 +19,6 @@ describe in API documentation on the website
 Retrieve data from the capacity market public registry
 }
 \seealso{
-Other API.calls: \code{\link{unavailabilityAPI}}
+Other API-calls: \code{\link{unavailabilityAPI}}
 }
-
+\concept{API-calls}

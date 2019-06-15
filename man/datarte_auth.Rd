@@ -38,4 +38,3 @@ client_secret <- "client_secret"
 datarte_auth(client_id = client_id, client_secret = client_secret, cache = F)
 }
 }
-

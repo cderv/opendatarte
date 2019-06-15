@@ -19,4 +19,3 @@ object for use with this package. \code{FALSE} otherwise.
 Check that object is a datarte token
 }
 \keyword{internal}
-

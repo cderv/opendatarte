@@ -14,4 +14,3 @@ This function checks if a token exist in the internal
 \code{.state} environment of the package
 }
 \keyword{internal}
-

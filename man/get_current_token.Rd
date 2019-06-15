@@ -18,6 +18,5 @@ Get current active token
 }
 \examples{
 get_current_token() # Return NULL or token credentials
-get_current_token(T) # Return NULL or access token only.
+get_current_token(TRUE) # Return NULL or access token only.
 }
-
