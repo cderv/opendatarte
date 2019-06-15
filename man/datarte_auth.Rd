@@ -17,11 +17,11 @@ file containing a valid Token2.0 object from httr
 }}
 
 \item{client_id}{character. the client id for the app. default \code{NULL} - will
-use the \code{OPENDATARTE_CLIENT} environment variable.}
+use the \code{RTE_API_CLIENT} environment variable.}
 
 \item{client_secret}{character. the client secret for the app. default \code{NULL}
 \itemize{
-\item will use the \code{OPENDATARTE_SECRET} environment variable.
+\item will use the \code{RTE_API_SECRET} environment variable.
 }}
 
 \item{cache}{logical or a string. \code{TRUE} to cache the access token into a
@@ -38,7 +38,7 @@ the current session if none currently exists and be valid.
 }
 \details{
 You can configure your R session to use always some client and secret by
-setting \code{OPENDATARTE_CLIENT} and \code{OPENDATARTE_SECRET} environment variable
+setting \code{RTE_API_CLIENT} and \code{RTE_API_SECRET} environment variable
 with \code{base::Sys.setenv()}
 }
 \examples{

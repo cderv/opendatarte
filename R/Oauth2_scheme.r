@@ -85,7 +85,7 @@ get_current_token <- function(only_access_token = F){
 #' the current session if none currently exists and be valid.
 #'
 #' You can configure your R session to use always some client and secret by
-#' setting `OPENDATARTE_CLIENT` and `OPENDATARTE_SECRET` environment variable
+#' setting `RTE_API_CLIENT` and `RTE_API_SECRET` environment variable
 #' with `base::Sys.setenv()`
 #'
 #' @references This function is inspired by `googlesheet` package and its Oauth2 system.
@@ -98,9 +98,9 @@ get_current_token <- function(only_access_token = F){
 #'    \item a `Token2.0` object directly
 #' }
 #' @param client_id character. the client id for the app. default `NULL` - will
-#'   use the `OPENDATARTE_CLIENT` environment variable.
+#'   use the `RTE_API_CLIENT` environment variable.
 #' @param client_secret character. the client secret for the app. default `NULL`
-#'   - will use the `OPENDATARTE_SECRET` environment variable.
+#'   - will use the `RTE_API_SECRET` environment variable.
 #' @param cache logical or a string. `TRUE` to cache the access token into a
 #'   file. A string means use the specified file. See `httr::oauth2.0_token()`
 #'   for details.
@@ -122,9 +122,9 @@ datarte_auth <- function(token = NULL,
   if (is.null(token)) {
     if (!is_token_available(verbose = F)) {
       if (is.null(client_id)) client_id <- .state$client_id
-      if (!nzchar(client_id)) stop("No client_id configured. Provide one or set `OPENDATARTE_CLIENT`")
+      if (!nzchar(client_id)) stop("No client_id configured. Provide one or set `RTE_API_CLIENT`")
       if (is.null(client_secret)) client_id <- .state$client_id
-      if (!nzchar(client_secret)) stop("No client_id configured. Provide one or set `OPENDATARTE_SECRET`")
+      if (!nzchar(client_secret)) stop("No client_id configured. Provide one or set `RTE_API_SECRET`")
       datarte_endpoints <- httr::oauth_endpoint(authorize = NULL,
                                                 access = "token/oauth/",
                                                 base_url = .state$datarte_url)
