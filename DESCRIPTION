@@ -13,10 +13,10 @@ Depends:
 License: file LICENSE
 Remotes: github::cderv/httr@client_credential_grant
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.1.1
 Imports:
     assertthat,
-    httr,
+    httr (>= 1.4.0),
     purrr,
     R6
 Suggests: 
