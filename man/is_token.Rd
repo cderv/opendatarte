@@ -2,7 +2,7 @@
 % Please edit documentation in R/Oauth2_scheme.r
 \name{is_token}
 \alias{is_token}
-\title{Check that object is a token}
+\title{Check that object is indeed a token}
 \usage{
 is_token(x, verbose = FALSE)
 }
@@ -12,10 +12,10 @@ is_token(x, verbose = FALSE)
 \item{verbose}{\code{TRUE} for printing message}
 }
 \value{
-logical. \code{TRUE} is if the object is a valid \code{\link{TokenDataRTE}}
+logical. \code{TRUE} is if the object is a valid \code{\link[=TokenDataRTE]{TokenDataRTE()}}
 object for use with this package. \code{FALSE} otherwise.
 }
 \description{
-Check that object is a token
+Check that object is indeed a token
 }
 \keyword{internal}

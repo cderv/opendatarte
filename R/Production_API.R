@@ -9,7 +9,7 @@
 #' @family API-calls
 #'
 #' @export
-unavailabilityAPI <- function(ressource = NULL, sandbox = T, refresh = T){
+unavailabilityAPI <- function(ressource = NULL, sandbox = TRUE, refresh = TRUE){
   registre_path <- "unavailability_additional_information/v1"
   if (sandbox) registre_path <- file.path(registre_path, "sandbox")
   if (is.null(ressource)) {

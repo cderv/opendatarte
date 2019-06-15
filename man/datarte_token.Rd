@@ -2,20 +2,20 @@
 % Please edit documentation in R/Oauth2_scheme.r
 \name{datarte_token}
 \alias{datarte_token}
-\title{Produce token for data.rte-france.com}
+\title{Produces token for data.rte-france.com}
 \usage{
 datarte_token(verbose = FALSE)
 }
 \value{
 a \code{request} object (an S3 class provided by \code{httr}). It is the token prepared for
-use with httr configuration system. see \code{\link[httr]{config}}.
+use with httr configuration system. see \code{\link[httr:config]{httr::config()}}.
 }
 \description{
 If token is not already available in the current session, this function will stop execution.
-A token for the current session must be requested before any other task.
+An active token for the current session must be requested before any other task.
 }
 \details{
-Use \code{\link{get_current_token}} to check for valid token.
+Use \code{\link[=get_current_token]{get_current_token()}} to check for valid token.
 }
 \examples{
   \dontrun{

@@ -4,7 +4,7 @@
 \alias{unavailabilityAPI}
 \title{Retrieve data from the production API}
 \usage{
-unavailabilityAPI(ressource = NULL, sandbox = T, refresh = T)
+unavailabilityAPI(ressource = NULL, sandbox = TRUE, refresh = TRUE)
 }
 \arguments{
 \item{ressource}{name of the ressource to call in the API. Choices are

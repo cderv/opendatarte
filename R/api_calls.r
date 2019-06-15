@@ -4,10 +4,10 @@
 #' is ressource generic and could be adapted to call the available ressource
 #' on the data RTE portal.
 #'
-#' @param ressource_path string. adresse of the ressource as describe in data rte API documentation available on
-#' data.rte-france.com (part of the addresse after /open_api/)
+#' @param ressource_path string. Endpoint of the ressource as describe in data rte API documentation available on
+#' data.rte-france.com (part of the url after /open_api/)
 #' @param refresh logical. force to `FALSE` to prevent refresh
-#'
+#' @param verbose logical.
 #' @return an `rte_api` object as a list with
 #'  \enumerate{
 #'      \item content: the parsed json resulting from the API call
@@ -16,13 +16,12 @@
 #'  }
 #'
 #' @export
-#' @keywords internal
-call_api <- function(ressource_path, refresh = TRUE){
+call_api <- function(ressource_path, refresh = TRUE, verbose = FALSE){
   assertthat::assert_that(assertthat::is.string(ressource_path))
   req_path <- httr::modify_url(.state$datarte_url,
                                path = "open_api")
-  resp <- httr::GET(file.path(req_path, ressource_path), datarte_token())
-  if (resp$status_code == 403L & refresh) {
+  resp <- httr::GET(file.path(req_path, ressource_path), datarte_token(verbose = verbose))
+  if (resp$status_code == 403L && refresh) {
     message("Auto-refreshing stale OAuth token.")
     .state$token <- resp$request$auth_token$refresh()
     return(call_api(ressource_path, refresh = FALSE))

@@ -10,29 +10,36 @@ datarte_auth(token = NULL, client_id = NULL, client_secret = NULL,
 \arguments{
 \item{token}{optional argument. it exists to supply manually a token.
 \itemize{
-   \item if `NULL` (the default), the current token for the active session will be used.
-   \item if a \code{character}, it assumes to be the path to a \emph{rds}
-   file containing a valid Token2.0 object from httr
-   \item a \code{Token2.0} object directly
+\item if \code{NULL} (the default), the current token for the active session will be used.
+\item if a \code{character}, it assumes to be the path to a \emph{rds}
+file containing a valid Token2.0 object from httr
+\item a \code{Token2.0} object directly
 }}
 
-\item{client_id}{character. the client id for the app}
+\item{client_id}{character. the client id for the app. default \code{NULL} - will
+use the \code{OPENDATARTE_CLIENT} environment variable.}
 
-\item{client_secret}{character. the client secret for the app}
+\item{client_secret}{character. the client secret for the app. default \code{NULL}
+\itemize{
+\item will use the \code{OPENDATARTE_SECRET} environment variable.
+}}
 
-\item{cache}{logical. \code{TRUE} to cache the access token in a file. See
-?httr::oauth2.0_token}
+\item{cache}{logical or a string. \code{TRUE} to cache the access token into a
+file. A string means use the specified file. See \code{httr::oauth2.0_token()}
+for details.}
 }
 \value{
 invisibly the \code{Token} which is saved for the current session,
-  and will be used when needed.
+and will be used when needed.
 }
 \description{
 It is the main fonction to use for accessing RTE Data API. It will request an access token for
 the current session if none currently exists and be valid.
 }
 \details{
-This function is inspired by \code{googlesheet} package and its Oauth2 system.
+You can configure your R session to use always some client and secret by
+setting \code{OPENDATARTE_CLIENT} and \code{OPENDATARTE_SECRET} environment variable
+with \code{base::Sys.setenv()}
 }
 \examples{
 \dontrun{
@@ -40,4 +47,7 @@ client_id <- "cliend_id"
 client_secret <- "client_secret"
 datarte_auth(client_id = client_id, client_secret = client_secret, cache = F)
 }
+}
+\references{
+This function is inspired by \code{googlesheet} package and its Oauth2 system.
 }

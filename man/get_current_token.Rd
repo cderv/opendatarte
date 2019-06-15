@@ -10,13 +10,13 @@ get_current_token(only_access_token = F)
 \item{only_access_token}{logical. Default to \code{FALSE}}
 }
 \value{
-If \code{TRUE}, just the access_token is returned not the whole token.
-If no token is available, for the current session, it return \code{NULL}
+If \code{TRUE}, just the token string is returned not the whole token object.
+If no token is available, for the current session, it returns \code{NULL}
 }
 \description{
 Get current active token
 }
 \examples{
-get_current_token() # Return NULL or token credentials
-get_current_token(TRUE) # Return NULL or access token only.
+get_current_token() # Returns NULL or token object credentials
+get_current_token(TRUE) # Returns NULL or access token string only.
 }
