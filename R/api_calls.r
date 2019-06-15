@@ -23,7 +23,8 @@ call_api <- function(ressource_path, refresh = TRUE, verbose = FALSE){
   resp <- httr::GET(file.path(req_path, ressource_path), datarte_token(verbose = verbose))
   if (resp$status_code == 403L && refresh) {
     message("Auto-refreshing stale OAuth token.")
-    .state$token <- resp$request$auth_token$refresh()
+    datarte_auth(client_id = resp$request$auth_token$app$key,
+                 client_secret = resp$request$auth_token$app$secret)
     return(call_api(ressource_path, refresh = FALSE))
   }
   if (httr::http_type(resp) != "application/json") {
