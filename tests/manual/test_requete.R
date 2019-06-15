@@ -26,13 +26,10 @@
 devtools::dev_mode()
 # need github httr branch
 # remotes::install_github("hadley/httr#388")
-library("httr")
-library(opendatarte)
-client_id <- Sys.getenv("RTE_API_CLIENT")
-client_secret <- Sys.getenv("RTE_API_SECRET")
-# source('R/oauth_token_without_auth.r')
-# datarte_auth(client_id = .state$client_id, client_secret = .state$client_secret, cache = F)
-datarte_auth(client_id = client_id, client_secret = client_secret, cache = F)
+devtools::load_all()
+
+# configure env variable before
+datarte_auth()
 
 get_current_token(T)
 
