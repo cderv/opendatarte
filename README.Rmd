@@ -1,0 +1,163 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# opendatarte
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of opendatarte is to help connect to https://data.rte-france.com and access data from its different resources API. 
+
+## Installation
+
+The package is not on CRAN yet. You can installed the development version from [GitHub](https://github.com/) with:
+
+* using `install-github.me` service
+```r
+source("https://install-github.me/cderv/opendatarte")
+```
+
+* using `remotes`
+
+``` r
+# install.packages("remotes")
+remotes::install_github("cderv/opendatarte")
+```
+
+* using `devtools`
+
+``` r
+# install.packages("devtools")
+devtools::install_github("cderv/opendatarte")
+```
+
+* using `pak`
+
+```r
+pak::pkg_install("cderv/opendatarte")
+```
+
+## How to use
+
+### Create an application and register some API
+
+This package is useful to connect to your application on https://data.rte-france.com. 
+Connect to the website, create an account and add an application. You can follow the help on the website. 
+
+Once your application is created you'll get a _client\_id_ and a _secret\_id_. You will need them to connect to your application form R using this package. 
+
+### Configure R client to authenticate
+
+```{r, eval = FALSE}
+library(opendatarte)
+```
+
+The main fonction is `datarte_auth()`. The simplest way to use it is to configure your R session with some environment variable containing your secrets: `RTE_API_CLIENT` and `RTE_API_SECRET`.
+
+To configure them you can use `usethis::edit_r_environ()`.
+
+```{r, eval = FALSE}
+datarte_auth()
+```
+
+
+You can also provide _client\_id_ and _secret\_id_ as argument directly.
+
+```{r, eval = FALSE}
+datarte_auth(client_id = "xxxxxxxxxx", client_secret = "xxxxxxxxxxxxxx")
+```
+
+or even, for advanced use, an httr token object directly in the token argument
+```{r, eval = FALSE}
+datarte_auth(token = "a-stored-token.rds")
+```
+
+All this will do the same: It will configure you current R session so that the package opendatarte knows the credentials. You can then use the API using this package without no further authentication step.
+
+This package is also compatible with the cache mechanism from httr. You can set `cache = TRUE` so that token is saved to disk and will be reused in future sessions, and not just the current session.
+
+If you want to use `httr` directly and not this package for accessing the data, you can 
+
+* save the object to reuse it in httr
+```{r, eval = FALSE}
+my_token <- datarte_auth()
+auth_rte <- httr::config(token = my_token)
+```
+
+You can put it any calls from `httr` like this
+```r
+httr::GET("https://httpbin.org/get", auth_rte)
+```
+The authentication will be handle to access the data
+
+* use the helper provided in this package. It will pass the token to the API correctly 
+```{r, eval = FALSE}
+datarte_auth()
+httr::GET("https://httpbin.org/get", datarte_token())
+```
+
+### Access data from the API using this package
+
+There is some functions included in this package to be use with specific ressources. They aim at easing the use of the API by wrapping endpoints and query parameter.
+
+They are all built on the same following concepts
+
+* In an interactive session, if several types of data are available for the same ressource, it will ask the one you want to use
+```{r, eval = FALSE}
+# get data from the 
+res <- RegistreAPI()
+```
+* You can provide a ressource path directly
+
+```{r, eval = FALSE}
+res <- RegistreAPI("ncc_less_100_mw")
+```
+
+* By default, it will use the sandbox url (see api documentation for details). Use `sandbox = FALSE` if needed.
+```{r, eval = FALSE}
+res <- RegistreAPI("ncc_less_100_mw", sandbox = FALSE)
+```
+
+* It will refresh your token automatically if it has expired. You can prevent that using `refresh = FALSE`
+```{r, eval = FALSE}
+res <- RegistreAPI("ncc_less_100_mw", refresh = FALSE)
+```
+
+### About available resources
+
+All the ressources are not yet available in this package. The way to expose all the ressource is not clear yet and this could evolved. 
+
+Available ressource are :
+
+* Unavailability Additional Information 
+* Certified Capacities Registry 
+
+
+#### Advanced Usage: Getting more resources
+
+All the function are built upon `call_api` that can be used with any resource path for the api documentation.
+
+```{r, eval = FALSE}
+res <- call_api("unavailability_additional_information/v1/sandbox/transmission_network_unavailabilities")
+```
+
+Main advantage is that it will return the same type of objects are previous functions and know how to use authentication. 
+
+You can also use `httr` directly by using the token `datarte_token()` in the call to the API. 
+You can also use any other request package, you can get the current access token with `get_current_token(TRUE)` to be used with any tool you prefere, according the API documentation
+
+
+# Other related package
+
+There is also the [rte.data](https://github.com/dreamRs/rte.data) that will work to use the data.rte-france.com API
