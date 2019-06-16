@@ -5,6 +5,8 @@
 #'
 #' Use [get_current_token()] to check for valid token.
 #'
+#' @param verbose Set to `TRUE` to print information.
+#'
 #' @return a `request` object (an S3 class provided by `httr`). It is the token prepared for
 #' use with httr configuration system. see [httr::config()].
 #'
@@ -159,8 +161,8 @@ datarte_auth <- function(token = NULL,
 #' @param x a R object to test
 #' @param verbose `TRUE` for printing message
 #'
-#' @return logical. `TRUE` is if the object is a valid [TokenDataRTE()]
-#' object for use with this package. `FALSE` otherwise.
+#' @return logical. `TRUE` is if the object is a valid Token2.0
+#' object. See [httr::Token2.0()]. `FALSE` otherwise.
 #'
 #' @export
 #' @keywords internal

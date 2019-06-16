@@ -12,8 +12,8 @@ is_token(x, verbose = FALSE)
 \item{verbose}{\code{TRUE} for printing message}
 }
 \value{
-logical. \code{TRUE} is if the object is a valid \code{\link[=TokenDataRTE]{TokenDataRTE()}}
-object for use with this package. \code{FALSE} otherwise.
+logical. \code{TRUE} is if the object is a valid Token2.0
+object. See \code{\link[httr:Token2.0]{httr::Token2.0()}}. \code{FALSE} otherwise.
 }
 \description{
 Check that object is indeed a token

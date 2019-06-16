@@ -50,6 +50,6 @@ call_api <- function(ressource_path, refresh = TRUE, verbose = FALSE){
 # Print method for rte_api class
 print.rte_api <- function(x, ...) {
   cat("<RTE ", x$path, ">\n", sep = "")
-  str(x$content)
+  utils::str(x$content)
   invisible(x)
 }

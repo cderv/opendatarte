@@ -6,8 +6,7 @@ Authors@R: person("Christophe", "Dervieux",
     email = "christophe.dervieux@gmail.com",
     role = c("aut", "cre"))
 Description: This package is R Client to RTE API of data.rte-france.com. 
-    It contains tools and functions to authenticate to the API
-    and retrieves the data
+    It contains tools and functions to authenticate to the API and retrieves the data.
 Depends:
     R (>= 3.3.0)
 License: GPL-3
@@ -17,7 +16,7 @@ Imports:
     assertthat,
     httr (>= 1.4.0),
     purrr,
-    R6
+    jsonlite
 Suggests: 
     testthat
 Roxygen: list(markdown = TRUE)

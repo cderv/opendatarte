@@ -6,6 +6,9 @@
 \usage{
 datarte_token(verbose = FALSE)
 }
+\arguments{
+\item{verbose}{Set to \code{TRUE} to print information.}
+}
 \value{
 a \code{request} object (an S3 class provided by \code{httr}). It is the token prepared for
 use with httr configuration system. see \code{\link[httr:config]{httr::config()}}.
