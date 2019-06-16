@@ -9,7 +9,6 @@
 #' use with httr configuration system. see [httr::config()].
 #'
 #' @export
-#' @keywords internal
 #' @examples
 #'   \dontrun{
 #'   # use in httr fonction like GET for authentification as config for httr

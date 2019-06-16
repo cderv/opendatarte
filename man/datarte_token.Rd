@@ -24,4 +24,3 @@ Use \code{\link[=get_current_token]{get_current_token()}} to check for valid tok
   httr::GET("https://httpbin.org/get", datarte_token())
   }
 }
-\keyword{internal}
