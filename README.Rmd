@@ -15,6 +15,8 @@ knitr::opts_chunk$set(
 # opendatarte
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/opendatarte)](https://cran.r-project.org/package=opendatarte)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 The goal of opendatarte is to help connect to https://data.rte-france.com and access data from its different resources API. 
