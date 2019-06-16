@@ -15,6 +15,13 @@ The goal of opendatarte is to help connect to
 <https://data.rte-france.com> and access data from its different
 resources API.
 
+**This package is in development.**
+
+  - The authentication mechanism is rather stable. It won’t change a lot
+    in the future.
+  - The functions to call ressources may evolve to have cleaner R API
+    and to be easy to maintain. It may change heavily in the future.
+
 ## Installation
 
 The package is not on CRAN yet. You can installed the development
@@ -177,6 +184,14 @@ res <- RegistreAPI("ncc_less_100_mw", sandbox = FALSE)
 res <- RegistreAPI("ncc_less_100_mw", refresh = FALSE)
 ```
 
+The results are currently of the following structure. It is a list with
+3 elements
+
+  - `res$content`: The parsed json as a list
+  - `res$path`: the ressource path from where are the data
+  - `res$response`: The httr response object. Could be useful for
+    advanced use.
+
 ### About available resources
 
 All the ressources are not yet available in this package. The way to
@@ -204,6 +219,14 @@ You can also use `httr` directly by using the token `datarte_token()` in
 the call to the API. You can also use any other request package, you can
 get the current access token with `get_current_token(TRUE)` to be used
 with any tool you prefere, according the API documentation
+
+# In the future
+
+  - Add a mechanism to add more resources and update them
+  - Add mechanism to connect also to
+    <https://opendata.reseaux-energies.fr>
+  - Add functions to get result as tibble and not just list from parsed
+    json.
 
 # Other related package
 
