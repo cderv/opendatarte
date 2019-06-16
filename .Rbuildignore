@@ -3,3 +3,4 @@
 ^\.httr-oauth$
 ^test_requete\.R$
 ^README\.Rmd$
+^LICENSE\.md$
